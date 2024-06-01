@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 class PhoneItem extends Component {
-  state = {};
   render() {
     let { phone } = this.props;
     return (
@@ -11,7 +11,9 @@ class PhoneItem extends Component {
           <p className="card-text">{phone.manHinh}</p>
           <p className="card-text">{phone.giaBan.toLocaleString()} VND</p>
           <button
-            onClick={() => {}}
+            onClick={() => {
+              this.props.themGioHang(phone);
+            }}
             className="btn btn-primary"
           >
             Add to Card
@@ -22,4 +24,24 @@ class PhoneItem extends Component {
   }
 }
 
-export default PhoneItem;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    themGioHang: (sanPham) => {
+      let spGioHang = {
+        maSP: sanPham.maSP,
+        tenSP: sanPham.tenSP,
+        soLuong: 1,
+        giaBan: sanPham.giaBan,
+        hinhAnh: sanPham.hinhAnh,
+      };
+
+      let action = {
+        type: "THEM_GIO_HANG",
+        spGioHang,
+      };
+      dispatch(action);
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(PhoneItem);

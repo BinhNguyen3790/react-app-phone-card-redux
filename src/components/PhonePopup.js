@@ -1,42 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 class PhonePopup extends Component {
-  renderProduct = () => {
-    let listCard = this.props.gioHang;
-    return listCard.map((product, index) => {
-      return (
-        <tr key={index}>
-          <td>{product.maSP}</td>
-          <td>{product.tenSP}</td>
-          <td width="10%">
-            <img src={product.hinhAnh} alt={product.maSP} style={{ width: "100%" }} />
-          </td>
-          <td>
-            <button className="btn btn-success me-3" style={{ width: "40px" }} onClick={() => {}}>
-              +
-            </button>
-            {product.soLuong}
-            <button className="btn btn-success ms-3" style={{ width: "40px" }} onClick={() => {}}>
-              -
-            </button>
-          </td>
-          <td>{product.donGia}</td>
-          <td>{(product.donGia * product.soLuong)}</td>
-          <td>
-            <button onClick={() => {}} className="btn btn-danger">
-              Delete
-            </button>
-          </td>
-        </tr>
-      );
-    });
+  renderSoLuong = () => {
+    return this.props.gioHang.reduce((tongSoLuong, spGH, index) => {
+      return (tongSoLuong += spGH.soLuong);
+    }, 0);
   };
   render() {
     return (
       <div className="container">
         <div className="d-flex">
           <button className="btn ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Card: 1 <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+            Card: {this.renderSoLuong()} <i className="fa fa-shopping-cart" aria-hidden="true"></i>
           </button>
           <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" style={{ minWidth: 1000 }}>
@@ -61,7 +36,35 @@ class PhonePopup extends Component {
                           <th scope="col">Hành động</th>
                         </tr>
                       </thead>
-                      <tbody>{this.renderProduct()}</tbody>
+                      <tbody>
+                        {this.props.gioHang.map((product, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{product.maSP}</td>
+                              <td width="10%">
+                                <img src={product.hinhAnh} alt={product.maSP} style={{ width: "100%" }} />
+                              </td>
+                              <td>{product.tenSP}</td>
+                              <td>
+                                <button className="btn btn-success me-3" style={{ width: "40px" }} onClick={() => {}}>
+                                  +
+                                </button>
+                                {product.soLuong}
+                                <button className="btn btn-success ms-3" style={{ width: "40px" }} onClick={() => {}}>
+                                  -
+                                </button>
+                              </td>
+                              <td>{product.giaBan}</td>
+                              <td>{product.giaBan * product.soLuong}</td>
+                              <td>
+                                <button onClick={() => {}} className="btn btn-danger">
+                                  Delete
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
                       <tfoot>
                         <tr>
                           <td colSpan="5"></td>
