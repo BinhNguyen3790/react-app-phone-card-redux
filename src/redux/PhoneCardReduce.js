@@ -1,8 +1,21 @@
 const stateCard = {
-  gioHang: [{ maSP: 1, tenSP: "VinSmart Live", manHinh: "AMOLED, 6.2, Full HD+", heDieuHanh: "Android 9.0 (Pie)", cameraTruoc: "20 MP", cameraSau: "Chính 48 MP & Phụ 8 MP, 5 MP", ram: "4 GB", rom: "64 GB", giaBan: 5700000, hinhAnh: "./assets/img/vsphone.jpg" }],
+  gioHang: [],
 };
 
 const PhoneCardReduce = (state = stateCard, action) => {
+  switch (action.type) {
+    case "THEM_GIO_HANG": {
+      let index = state.gioHang.findIndex((spGH) => spGH.maSP === action.spGioHang.maSP);
+      console.log(index);
+      if (index !== -1) {
+        state.gioHang[index].soLuong += 1;
+      } else {
+        state.gioHang.push(action.spGioHang);
+      }
+      state.gioHang = [...state.gioHang];
+      return { ...state };
+    }
+  }
   return { ...state };
 };
 
