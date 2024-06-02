@@ -54,10 +54,15 @@ class PhonePopup extends Component {
                                   -
                                 </button>
                               </td>
-                              <td>{product.giaBan}</td>
-                              <td>{product.giaBan * product.soLuong}</td>
+                              <td>{product.giaBan.toLocaleString()}</td>
+                              <td>{(product.giaBan * product.soLuong).toLocaleString()}</td>
                               <td>
-                                <button onClick={() => {}} className="btn btn-danger">
+                                <button
+                                  onClick={() => {
+                                    this.props.xoaGioHang(product.maSP);
+                                  }}
+                                  className="btn btn-danger"
+                                >
                                   Delete
                                 </button>
                               </td>
@@ -67,9 +72,15 @@ class PhonePopup extends Component {
                       </tbody>
                       <tfoot>
                         <tr>
-                          <td colSpan="5"></td>
-                          <td>Sum Price:</td>
-                          <td>111</td>
+                          <th colSpan="5"></th>
+                          <th>Sum Price:</th>
+                          <th>
+                            {this.props.gioHang
+                              .reduce((tongTien, spGioHang, index) => {
+                                return (tongTien += spGioHang.soLuong * spGioHang.giaBan);
+                              }, 0)
+                              .toLocaleString()}
+                          </th>
                         </tr>
                       </tfoot>
                     </table>
@@ -78,9 +89,6 @@ class PhonePopup extends Component {
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                     Close
-                  </button>
-                  <button type="button" className="btn btn-primary">
-                    Save changes
                   </button>
                 </div>
               </div>
@@ -98,4 +106,24 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(PhonePopup);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    xoaGioHang: (maSP) => {
+      let action = {
+        type: "XOA_GIO_HANG",
+        maSP,
+      };
+      dispatch(action);
+    },
+    tangGiamSoLuong: (maSP, tangSoLuong) => {
+      let action = {
+        type: "TANG_GIAM_SO_LUONG",
+        maSP,
+        tangSoLuong,
+      };
+      dispatch(action);
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PhonePopup);
