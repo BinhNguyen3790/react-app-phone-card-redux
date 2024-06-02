@@ -36,8 +36,8 @@ const PhoneCardReduce = (state = stateCard, action) => {
           if (action.tangSoLuong) {
             gioHangCapNhat[index].soLuong += 1;
           } else {
-            if (gioHangCapNhat[index] > 1) {
-              gioHangCapNhat[index] -= 1;
+            if (gioHangCapNhat[index].soLuong > 1) {
+              gioHangCapNhat[index].soLuong -= 1;
             } else {
               alert("minimun number is 1!");
             }

@@ -46,11 +46,23 @@ class PhonePopup extends Component {
                               </td>
                               <td>{product.tenSP}</td>
                               <td>
-                                <button className="btn btn-success me-3" style={{ width: "40px" }} onClick={() => {}}>
+                                <button
+                                  className="btn btn-success me-3"
+                                  style={{ width: "40px" }}
+                                  onClick={() => {
+                                    this.props.tangGiamSoLuong(product.maSP, true);
+                                  }}
+                                >
                                   +
                                 </button>
                                 {product.soLuong}
-                                <button className="btn btn-success ms-3" style={{ width: "40px" }} onClick={() => {}}>
+                                <button
+                                  className="btn btn-success ms-3"
+                                  style={{ width: "40px" }}
+                                  onClick={() => {
+                                    this.props.tangGiamSoLuong(product.maSP, false);
+                                  }}
+                                >
                                   -
                                 </button>
                               </td>
